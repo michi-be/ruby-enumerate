@@ -11,7 +11,13 @@ class Enumerate_Tool
     end
     
     options.fetch(:filepattern)[/([\w]+)\*\.([\w]+)\z/]
-    prefix = $1
+    
+    if options.fetch(:new) == '' then
+        prefix = $1
+    else
+        prefix = options.fetch(:new)
+    end
+    
     suffix = $2
     newfile = "#{prefix}%0#{options.fetch(:digits)}d.#{suffix}"
 
@@ -75,5 +81,7 @@ end
 opts = Options.new
 options = opts.parse( ARGV )
 puts options
-tool = Enumerate_Tool.new
-tool.enumerate( options ) #if !options.fetch(:path).nil
+unless options.fetch(:path) == nil  then
+    tool = Enumerate_Tool.new
+    tool.enumerate( options )
+end
